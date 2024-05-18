@@ -40,23 +40,40 @@ game = True
 
 speed_x=3
 speed_y=3
+font.init()
+font1 = font.SysFont('Arial', 40)
+font2 = font.SysFont('Arial', 40)
 
+question1 = font1.render('левая ворона выиграла', True, (0, 0, 0))
+question2 = font2.render('правая ворона выиграла', True, (0, 0, 0))
+finish = False
 while game:
-    window.fill((212, 212, 212))
-    voron.update()
-    voron2.update2()
-    voron.reset()
-    voron2.reset()
-    apple.reset()
-    # if finish != True:
-    apple.rect.x += speed_x
-    apple.rect.y += speed_y
-    if apple.rect.y > 500 - 50 or apple.rect.y < 0:
-        speed_y *= -1
-    if sprite.collide_rect(voron, apple) or sprite.collide_rect(voron2, apple):
-        speed_x *= -1
+    if finish != True:
+        window.fill((212, 212, 212))
+        voron.update()
+        voron2.update2()
+        voron.reset()
+        voron2.reset()
+        apple.reset()
+        
+        apple.rect.x += speed_x
+        apple.rect.y += speed_y
+        if apple.rect.y > 500 - 50 or apple.rect.y < 0:
+            speed_y *= -1
+        if sprite.collide_rect(voron, apple) or sprite.collide_rect(voron2, apple):
+            speed_x *= -1
+        if apple.rect.x > 700:
+            window.blit(question1, (134, 250))
+            finish = True
+
+        if apple.rect.x < 0:
+            window.blit(question2, (134, 250))
+            finish = True
     for e in event.get():
         if e.type == QUIT:
             game = False
+
+   
+
     display.update()    
     clock.tick(40)
